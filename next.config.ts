@@ -1,7 +1,43 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true
+  },
 
-export default nextConfig;
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb'
+    }
+  }
+
+  // httpAgentOptions: {
+  //   keepAlive: true
+  // },
+
+  // productionBrowserSourceMaps: true,
+  // reactStrictMode: true,
+
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/services/:path*',
+  //       destination: '/api/:path*'
+  //     }
+  //   ]
+  // },
+
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/browse',
+  //       permanent: true
+  //     }
+  //   ]
+  // }
+}
+
+export default nextConfig

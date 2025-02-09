@@ -1,0 +1,21 @@
+{
+  "name": "Project Alicization",
+  "short_name": "Alice",
+  "description": "Lorem ipsum odor amet, consectetuer adipiscing elit. Class turpis egestas ligula tempus etiam dis risus.",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "type": "image/png",
+      "src": "/static/favicon/icon-dark-192x192.png",
+      "sizes": "192x192"
+    },
+    {
+      "type": "image/png",
+      "src": "/static/favicon/icon-dark-512x512.png",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#D82148",
+  "background_color": "#040404"
+}
