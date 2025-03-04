@@ -8,7 +8,7 @@ export default defineConfig({
   schema: './src/drizzle/schema/*.schema.ts',
   out: './src/drizzle/migrations',
   dbCredentials: {
-    url: process.env.DATABASE_URL
+    url: process.env.DATABASE_URL!
   },
   introspect: {
     casing: 'camel'

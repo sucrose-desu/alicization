@@ -1,36 +1,12 @@
 import { clsx, type ClassValue } from 'clsx'
-import qs, { type IParseOptions } from 'qs'
 import { twMerge } from 'tailwind-merge'
-
-export class queryString {
-  static toJSON(searchParams: string, options?: IParseOptions) {
-    return qs.parse(searchParams, {
-      ...options,
-      allowDots: true,
-      comma: true,
-      ignoreQueryPrefix: true
-    })
-  }
-}
 
 export function cls(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function generateId(radix: number = 16) {
-  return Math.random().toString(radix).slice(2)
-}
-
 export function randomIntNetween(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-export function dateToSeconds(date: Date) {
-  return (+date - new Date().getTime()) / 1e3
-}
-
-export function stripHtml(str: string) {
-  return str.replaceAll(/<[^>]*>?/gm, '')
 }
 
 /**
@@ -50,24 +26,20 @@ export function abbreviateNumber(input: number, fractionDigits: number = 1) {
   return (input / scale).toFixed(fractionDigits) + suffix
 }
 
-/**
- * `{ take: limit, skip: (page - 1) * limit }`
- * @param payload Object
- * @param total Number
- * @param page Number
- * @param limit Number
- */
-export function createPaginate<P = any>(payload: P[], total: number, page: number, limit: number) {
+export function createPagination<T = any>(
+  data: T[],
+  total: number,
+  page: number,
+  limit: number
+): Pagination<T> {
   const lastPage = Math.ceil(total / limit)
-  const nextPage = page + 1 > lastPage ? null : page + 1
-  const prevPage = page - 1 < 1 ? null : page - 1
 
   return {
-    data: payload,
+    data,
     total,
     currentPage: page,
-    nextPage,
-    prevPage,
+    nextPage: page + 1 > lastPage ? null : page + 1,
+    prevPage: page - 1 < 1 ? null : page - 1,
     lastPage
   }
 }

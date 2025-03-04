@@ -10,8 +10,7 @@
   },
   "files.eol": "\n",
   "files.exclude": {
-    "**/.next": true,
-    "**/dist": true
+    "**/.next": true
   },
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,

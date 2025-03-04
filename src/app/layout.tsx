@@ -17,10 +17,9 @@ export default function RootLayout({
       </head>
 
       <body
-        className={cls('overflow-x-hidden antialiased', fontInter.variable, fontThai.variable)}
+        className={cls(fontInter.variable, fontThai.variable)}
         style={{
-          backgroundColor: '#040404',
-          textRendering: 'optimizeLegibility'
+          backgroundColor: '#040404'
         }}>
         {children}
       </body>

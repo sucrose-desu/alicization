@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '2mb'
     }
-  }
+  },
 
   // httpAgentOptions: {
   //   keepAlive: true
@@ -20,14 +20,14 @@ const nextConfig: NextConfig = {
   // productionBrowserSourceMaps: true,
   // reactStrictMode: true,
 
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: '/services/:path*',
-  //       destination: '/api/:path*'
-  //     }
-  //   ]
-  // },
+  async rewrites() {
+    return [
+      {
+        source: '/v0/:path*',
+        destination: '/api/:path*'
+      }
+    ]
+  }
 
   // async redirects() {
   //   return [

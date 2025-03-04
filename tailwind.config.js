@@ -5,8 +5,8 @@
  */
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}'
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}'
     // './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
   darkMode: 'class',
@@ -14,7 +14,7 @@ module.exports = {
     extend: {
       colors: {},
       container: {
-        center: true
+        center: false
       },
       grayscale: {
         25: '25%',
