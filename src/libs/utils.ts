@@ -9,6 +9,14 @@ export function randomIntNetween(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+export function strToHex(str: string) {
+  return Buffer.from(str, 'utf8').toString('hex')
+}
+
+export function hexToString(str: string) {
+  return Buffer.from(str, 'hex').toString('utf8')
+}
+
 /**
  * Convert long number into abbreviated string.
  *

@@ -1,33 +1,24 @@
 import { relations } from 'drizzle-orm'
-import {
-  boolean,
-  index,
-  integer,
-  json,
-  serial,
-  text,
-  timestamp,
-  uniqueIndex
-} from 'drizzle-orm/pg-core'
+import { boolean, index, integer, json, serial, text, uniqueIndex } from 'drizzle-orm/pg-core'
 
 import { sharedTimestampConumns, useSchema } from '../utils'
-import { accountWithRole } from './accounts.schema'
+import { stateOfTeams, teams } from './teams.schema'
 
 export const roles = useSchema
   .table(
     'roles',
     {
-      id: serial().primaryKey(),
-      tier: text().$type<Tiers>().default('user'),
-      name: text().unique().default('user'),
-      description: text(),
-      isActive: boolean().default(true),
+      id: serial('id').primaryKey(),
+      teamId: integer('team_id')
+        .notNull()
+        .references(() => teams.id, { onDelete: 'cascade' }),
+      tier: text('tier').notNull().$type<Tiers>().default('user'),
+      name: text('name').unique().notNull().default('user'),
+      description: text('description'),
+      isActive: boolean('is_active').default(true),
       ...sharedTimestampConumns
     },
-    (table) => [
-      index('role_tier_index').on(table.tier),
-      uniqueIndex('role_name_index').on(table.name)
-    ]
+    (self) => [index().on(self.tier), uniqueIndex().on(self.name)]
   )
   .enableRLS()
 
@@ -35,28 +26,29 @@ export const permissions = useSchema
   .table(
     'permissions',
     {
-      id: serial().primaryKey(),
-      roleId: integer()
+      id: serial('id').primaryKey(),
+      roleId: integer('role_id')
         .notNull()
-        .references(() => roles.id),
-      action: text().notNull().$type<PermissionActions>(),
-      resource: text().notNull().$type<PermissionResources>(),
-      conditions: json().$type<Record<string, any>[]>(),
-      description: text(),
-      isActive: boolean().default(true),
+        .references(() => roles.id, { onDelete: 'cascade' }),
+      action: text('action').notNull().$type<PermissionActions>(),
+      resource: text('resource').notNull().$type<PermissionResources>(),
+      conditions: json('conditions').$type<Record<string, any>[]>(),
+      description: text('description'),
+      isActive: boolean('is_active').default(true),
       ...sharedTimestampConumns
     },
-    (table) => [
-      index('permission_action_index').on(table.action),
-      index('permission_resource_index').on(table.resource)
-    ]
+    (self) => [index().on(self.action), index().on(self.resource)]
   )
   .enableRLS()
 
 // ********************** Relations ********************** \\
 
-export const rolesRelations = relations(roles, ({ many }) => ({
-  accounts: many(accountWithRole),
+export const rolesRelations = relations(roles, ({ one, many }) => ({
+  team: one(teams, {
+    fields: [roles.teamId],
+    references: [teams.id]
+  }),
+  accounts: many(stateOfTeams),
   permissions: many(permissions)
 }))
 

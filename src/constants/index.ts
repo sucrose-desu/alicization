@@ -18,3 +18,11 @@ export const CONTENT_LANG = 'Content-Language'
 export const CONTENT_LENGTH = 'Content-Length'
 export const CONTENT_RANGE = 'Content-Range'
 export const CONTENT_TYPE = 'Content-Type'
+
+export const defTiers: Set<Tiers> = new Set(['root', 'admin', 'assistant', 'operater'])
+export const defCanAccess: CanAccess = {
+  canRead: false,
+  canCreate: false,
+  canEdit: false,
+  canDelete: false
+}

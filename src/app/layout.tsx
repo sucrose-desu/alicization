@@ -1,3 +1,4 @@
+import { Locales } from '@/constants/enum'
 import { fontInter, fontThai } from '@/constants/fonts'
 import { cls } from '@/libs/utils'
 
@@ -11,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en-UK' className='dark' style={{ colorScheme: 'dark' }}>
+    <html lang={Locales.UK} style={{ colorScheme: 'dark' }}>
       <head>
         <link rel='preconnect' href='https://picsum.photos' />
       </head>
