@@ -5,6 +5,10 @@ export function cls(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function generateUid(radix: number = 10) {
+  return '1' + Math.random().toString(radix).slice(2, 8).padStart(8, '0')
+}
+
 export function randomIntNetween(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }

@@ -2,7 +2,7 @@
   "name": "Project Alicization",
   "short_name": "Alice",
   "description": "Lorem ipsum odor amet, consectetuer adipiscing elit. Class turpis egestas ligula tempus etiam dis risus.",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "icons": [
     {
@@ -16,6 +16,6 @@
       "sizes": "512x512"
     }
   ],
-  "theme_color": "#D82148",
-  "background_color": "#040404"
+  "theme_color": "#fafafa",
+  "background_color": "#0a0a0a"
 }

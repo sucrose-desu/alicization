@@ -20,8 +20,8 @@ export async function GET(request: NextRequest, { params }: NextParams) {
   })
 
   try {
-    const qs = await paramValidator.parseAsync(searchParams)
-    const pathName = path.resolve('', qs.path)
+    const i = paramValidator.parse(searchParams)
+    const pathName = path.resolve('', i.path)
 
     const thumbnail = await takeScreenshots(pathName)
     const screenshotPath = path.resolve('', thumbnail)

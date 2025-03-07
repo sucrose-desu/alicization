@@ -1,78 +1,102 @@
 'use server'
 
-import { and, eq, getTableColumns } from 'drizzle-orm'
+// import 'server-only'
+import { compareSync } from 'bcryptjs'
+import { addDays, addYears } from 'date-fns'
+import { eq, getTableColumns } from 'drizzle-orm'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { omit } from 'ramda'
+import { NIL, v5 as uuidV5 } from 'uuid'
 
 import { APP_AUTH_ACCESS, APP_AUTH_REFRESH } from '@/constants'
 import { ENV } from '@/constants/env'
 import { db, schema } from '@/drizzle'
-import type { AccountOBAC, RoleAndPermission } from '@/drizzle/types'
+import type { AccountRBAC, RoleAndPermission } from '@/drizzle/types'
+import { signToken } from '@/libs/jwt'
 
-import { createHeaders } from '../helpers'
 import type { SignInSchema } from './validator.zod'
 
-export async function signIn(formData: SignInSchema) {
-  const headers = await createHeaders()
-  const response = await fetch(`${ENV.API_GATEWAY}/auth/sign-in`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(formData)
-  })
+export async function signIn(formData: SignInSchema): Promise<TResponse | void> {
+  const [account] = await db
+    .select()
+    .from(schema.accounts)
+    .where(eq(schema.accounts.username, formData.username))
 
-  const data: XHRLogin = await response.json()
-
-  if (response.ok) {
+  if (!account) {
+    return {
+      statusCode: 403,
+      message: 'Your `username` is incorrect.'
+    }
+  } else if (account.isSuspended) {
+    return {
+      statusCode: 403,
+      message: 'Your account has been suspended.'
+    }
+  } else if (!compareSync(formData.password, account.password)) {
+    return {
+      statusCode: 403,
+      message: 'Your `password` is incorrect.'
+    }
+  } else {
+    const result = await findAccountRBAC(account.id)
     const cookieStore = await cookies()
-    const cookieOptions: any = {
-      sameSite: 'strict',
-      secure: true
-    } // as ResponseCookie
 
-    cookieStore.set(APP_AUTH_ACCESS, data.accessToken, cookieOptions)
-    cookieStore.set(APP_AUTH_REFRESH, data.refreshToken, cookieOptions)
+    const accessToken = await signToken(result)
+    cookieStore.set(APP_AUTH_ACCESS, accessToken, { secure: true, expires: addYears(new Date(), 1) })
+
+    const refreshKey = uuidV5(`${ENV.APP_NAME}//${result.uid}:${Date.now()}`, NIL)
+    cookieStore.set(APP_AUTH_REFRESH, refreshKey, { secure: true, expires: addDays(new Date(), 30) })
+
+    if (['user', 'guest'].includes(result.role.tier)) {
+      redirect(`/browse`)
+    } else {
+      redirect(`/labs/lobby`)
+    }
   }
-
-  return data as unknown as XHResponse<null>
 }
 
-export async function signOut() {
+export async function signOut(jestCleanUp?: boolean): Promise<void> {
   const cookieStore = await cookies()
 
   cookieStore.delete(APP_AUTH_ACCESS)
   cookieStore.delete(APP_AUTH_REFRESH)
 
-  redirect('/sign-in')
+  if (!jestCleanUp) {
+    redirect('/sign-in')
+  }
 }
 
-export async function findAccountOBAC(auth: JwtPayload): Promise<AccountOBAC> {
+export async function findAccountRBAC(accountId: number): Promise<AccountRBAC> {
   const accountColumns = getTableColumns(schema.accounts)
-  const teamColumns = getTableColumns(schema.teams)
   const roleColumns = getTableColumns(schema.roles)
 
   const [account] = await db
     .select({
       ...omit(['password'], accountColumns),
-      role: omit(['teamId'], roleColumns),
-      team: teamColumns
+      role: roleColumns
     })
-    .from(schema.stateOfTeams)
-    .innerJoin(schema.accounts, eq(schema.accounts.id, schema.stateOfTeams.accountId))
-    .innerJoin(schema.teams, eq(schema.teams.id, schema.stateOfTeams.teamId))
-    .innerJoin(schema.roles, eq(schema.roles.id, schema.stateOfTeams.roleId))
-    .where(and(eq(schema.accounts.id, auth.id), eq(schema.teams.id, auth.team)))
+    .from(schema.accountWithRole)
+    .innerJoin(schema.accounts, eq(schema.accounts.id, schema.accountWithRole.accountId))
+    .innerJoin(schema.roles, eq(schema.roles.id, schema.accountWithRole.roleId))
+    .where(eq(schema.accounts.id, accountId))
 
   return account
 }
 
-export async function getRoleAndPermissions(): Promise<RoleAndPermission> {
-  const headers = await createHeaders()
-  const response = await fetch(`${ENV.API_GATEWAY}/auth/permissions`, {
-    method: 'GET',
-    headers,
-    priority: 'high'
+export async function findRoleAndPermissions(accountId: number): Promise<RoleAndPermission> {
+  const result = await db.query.accountWithRole.findFirst({
+    where: eq(schema.accountWithRole.accountId, accountId),
+    with: {
+      role: {
+        with: {
+          permissions: {
+            columns: { roleId: false }
+          }
+        }
+      }
+    }
   })
 
-  return response.json()
+  return result!.role
 }

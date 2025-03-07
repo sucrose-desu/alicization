@@ -9,16 +9,27 @@ const nextConfig: NextConfig = {
 
   experimental: {
     serverActions: {
-      bodySizeLimit: '2mb'
+      bodySizeLimit: '4mb'
     }
   },
 
-  // httpAgentOptions: {
-  //   keepAlive: true
-  // },
+  httpAgentOptions: {
+    keepAlive: false
+  },
 
-  // productionBrowserSourceMaps: true,
+  // poweredByHeader: false,
+  productionBrowserSourceMaps: true,
   // reactStrictMode: true,
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/browse',
+        permanent: true
+      }
+    ]
+  },
 
   async rewrites() {
     return [
@@ -28,16 +39,6 @@ const nextConfig: NextConfig = {
       }
     ]
   }
-
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/browse',
-  //       permanent: true
-  //     }
-  //   ]
-  // }
 }
 
 export default nextConfig

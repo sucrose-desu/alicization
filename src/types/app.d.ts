@@ -5,8 +5,7 @@ declare type CanAccess = Record<'canRead' | 'canCreate' | 'canEdit' | 'canDelete
 declare type JwtPayload = {
   id: number
   uid: string
-  role: number
-  team: number
+  role: Tiers
 }
 
 declare type Pagination<T = any> = {

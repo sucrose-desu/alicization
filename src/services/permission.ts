@@ -1,7 +1,7 @@
 import { defCanAccess, defTiers } from '@/constants'
 import { RoleAndPermission } from '@/drizzle/types'
 
-export function permissionValidator(role: RoleAndPermission, resource: string) {
+export function permissionValidator(role: RoleAndPermission, resource: Permission.Resources) {
   if (!defTiers.has(role.tier)) return defCanAccess
 
   return role.permissions

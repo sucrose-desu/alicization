@@ -4,7 +4,7 @@ import { pgSchema, timestamp, type PgSelect } from 'drizzle-orm/pg-core'
 export const useSchema = pgSchema('alicization')
 
 export const sharedTimestampConumns = {
-  createdAt: timestamp('created_at', { precision: 6, withTimezone: true }).defaultNow(),
+  createdAt: timestamp('created_at', { precision: 6, withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { precision: 6, withTimezone: true }).$onUpdate(
     () => new Date()
   )

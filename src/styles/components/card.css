@@ -1,0 +1,77 @@
+@layer components {
+  .card {
+    display: grid;
+    width: 280px;
+    height: 400px;
+    overflow: hidden;
+  }
+  .card:hover .card-poster,
+  .card:focus-within .card-poster {
+    transform: translateY(-5px) scale(1.03);
+  }
+  .card:hover .card-poster:after,
+  .card:focus-within .card-poster:after {
+    transform: translateY(-32%);
+  }
+  .card:hover .card-content,
+  .card:focus-within .card-content {
+    transform: translateY(0);
+  }
+  .card:hover .card-content > *:not(.title),
+  .card:focus-within .card-content > *:not(.title) {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(var(--duration) / 6);
+  }
+
+  .card-poster {
+    @apply size-full justify-self-center;
+    transition: transform calc(var(--duration) * 1.5) var(--cubic-bezier);
+  }
+  .card-poster:after {
+    @apply pointer-events-none absolute inset-x-0 top-0 block;
+    content: '';
+    height: 150%;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0 0 0 / 0) 0%,
+      rgba(0 0 0 / 0.008) 11.7%,
+      rgba(0 0 0 / 0.034) 22.1%,
+      rgba(0 0 0 / 0.072) 31.2%,
+      rgba(0 0 0 / 0.123) 39.4%,
+      rgba(0 0 0 / 0.182) 46.6%,
+      rgba(0 0 0 / 0.249) 53.1%,
+      rgba(0 0 0 / 0.32) 58.9%,
+      rgba(0 0 0 / 0.394) 64.3%,
+      rgba(0 0 0 / 0.468) 69.3%,
+      rgba(0 0 0 / 0.54) 74.1%,
+      rgba(0 0 0 / 0.607) 78.8%,
+      rgba(0 0 0 / 0.668) 83.6%,
+      rgba(0 0 0 / 0.721) 88.7%,
+      rgba(0 0 0 / 0.762) 94.1%,
+      rgba(0 0 0 / 0.79) 100%
+    );
+    transform: translateY(0);
+    transition: transform calc(0.7s * 2) cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .card-tags {
+    @apply pointer-events-none absolute top-2 left-2 z-10 grid justify-end gap-1;
+  }
+  .card-tags .tag {
+    @apply flex h-5 items-center rounded bg-rose-600 px-2 text-xs font-light text-rose-100 capitalize;
+  }
+
+  .card-content {
+    @apply absolute inset-x-0 self-end p-4 text-center;
+    transform: translateY(calc(100% - 4.5rem));
+    transition: transform calc(var(--duration)) var(--cubic-bezier);
+  }
+  .card-content > *:not(.title) {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      transform var(--duration) var(--cubic-bezier),
+      opacity var(--duration) var(--cubic-bezier);
+  }
+}

@@ -12,10 +12,10 @@ const paramValidator = z.object({ path: z.string() })
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: NextRequest, { params }: NextParams) {
+export async function GET(request: NextRequest, { params }: NextParams<{ path: string }>) {
   try {
-    const { path } = await paramValidator.parseAsync(params)
-    const pathConverted = hexToString(path)
+    const qs = paramValidator.parse(await params)
+    const pathConverted = hexToString(qs.path)
     const pathName = resolve('', pathConverted)
 
     const mimeType = mime.getType(pathName)
@@ -32,8 +32,8 @@ export async function GET(request: NextRequest, { params }: NextParams) {
       })
 
       const headers = new Headers()
-      headers.append('Content-Type', mimeType)
-      headers.append('Content-Length', fileStat.size.toString())
+      headers.set('Content-Type', mimeType)
+      headers.set('Content-Length', fileStat.size.toString())
 
       return new NextResponse(readableStream, { headers })
     }

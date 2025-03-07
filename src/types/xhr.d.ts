@@ -1,16 +1,10 @@
-declare type XHResponse<D = any> = {
+declare type TResponse<D = any> = {
   statusCode: number
   message: string
-  error?: string
+  error?: any
   data?: D
 }
 
-declare type XHRLogin = {
-  accessToken: string
-  refreshToken: string
-  expiresAt: string
-}
-
-declare type NextParams<T = any> = {
-  params: T
-}
+declare type NextParams<T = Record<string, string>> = Readonly<{
+  params: Promise<T>
+}>

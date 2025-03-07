@@ -15,12 +15,15 @@ export default function RootLayout({
     <html lang={Locales.UK} style={{ colorScheme: 'dark' }}>
       <head>
         <link rel='preconnect' href='https://picsum.photos' />
+        <link rel='preconnect' href='https://fastly.picsum.photos' />
+        <link rel='preconnect' href='https://pravatar.cc' />
+        <link rel='preconnect' href='https://i.pravatar.cc' />
       </head>
 
       <body
         className={cls(fontInter.variable, fontThai.variable)}
         style={{
-          backgroundColor: '#040404'
+          backgroundColor: '#0a0a0a'
         }}>
         {children}
       </body>

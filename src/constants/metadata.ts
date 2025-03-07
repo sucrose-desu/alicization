@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     { rel: 'icon', url: '/static/favicon/icon.svg', sizes: '32x32', type: 'image/svg+xml' },
     { rel: 'apple-touch-icon', url: '/static/favicon/apple-touch-icon.png', type: 'image/png' }
   ],
-  manifest: '/manifest.json'
+  manifest: '/app.webmanifest'
 }
 
 export const viewport: Viewport = {
@@ -32,6 +32,6 @@ export const viewport: Viewport = {
   colorScheme: 'dark light',
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-    { media: '(prefers-color-scheme: light)', color: '#ededed' }
+    { media: '(prefers-color-scheme: light)', color: '#fafafa' }
   ]
 }

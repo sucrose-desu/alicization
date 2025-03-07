@@ -1,7 +1,7 @@
 @theme {
   --font-display: var(--font-inter), var(--font-thai), 'sans-serif';
 
-  --color-background: #040404;
+  --color-background: #0a0a0a;
   --color-foreground: #fafafa;
 
   --color-avocado-100: oklch(0.99 0 0);
@@ -23,6 +23,9 @@
     #f9a825,
     #ff5722
   );
+
+  --cubic-bezier: cubic-bezier(0.19, 1, 0.22, 1);
+  --duration: 720ms;
 
   --animate-loader: loader 1s cubic-bezier(0.86, 0.01, 0.08, 1);
   --animate-rainbow: rainbow 3s linear infinite;

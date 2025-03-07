@@ -13,7 +13,6 @@ import {
 
 import { sharedTimestampConumns, useSchema } from '../utils'
 import { accounts } from './accounts.schema'
-import { genres } from './commons.schema'
 
 export const titles = useSchema
   .table(
@@ -26,11 +25,11 @@ export const titles = useSchema
       description: text('description'),
       keywords: text('keywords'),
       poster: text('poster').notNull(),
-      category: text('category').notNull().$type<TitleCategory>().default('anime'),
-      dubbed: text('dubbed').notNull().$type<TitleDubbed>().default('japan'),
-      status: text('status').notNull().$type<TitleStatus>().default('airing'),
+      category: text('category').notNull().$type<Title.Category>().default('anime'),
+      dubbed: text('dubbed').notNull().$type<Title.Dubbed>().default('japan'),
+      status: text('status').notNull().$type<Title.Status>().default('airing'),
       studio: text('studio'),
-      source: text('source').$type<TitleSource>().default('etc'),
+      source: text('source').$type<Title.Source>().default('etc'),
       seasonNo: integer('season_no').notNull().default(1),
       link: text('link'),
       isActive: boolean('is_active').default(true),
@@ -87,6 +86,20 @@ export const watch = useSchema
   })
   .enableRLS()
 
+export const genres = useSchema
+  .table(
+    'genres',
+    {
+      id: serial('id').primaryKey(),
+      group: text('group').$type<Genre.Group>().default('general'),
+      text: text('text').unique(),
+      isActive: boolean('is_active').default(true),
+      ...sharedTimestampConumns
+    },
+    (self) => []
+  )
+  .enableRLS()
+
 export const genresOfTitles = useSchema.table('genres_of_titles', {
   id: serial('id').primaryKey(),
   titleId: integer('title_id')
@@ -118,4 +131,8 @@ export const watchRelations = relations(watch, ({ one, many }) => ({
     fields: [watch.trackId],
     references: [titles.id]
   })
+}))
+
+export const genresRelations = relations(genres, ({ one, many }) => ({
+  titles: many(genresOfTitles)
 }))

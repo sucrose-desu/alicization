@@ -1,6 +1,6 @@
 import { ZodError } from 'zod'
 
-import { headers } from '@/services/helpers'
+import { headers } from '@/constants'
 
 export class ApiResponse {
   static json(data: any, statusCode: number = 200) {
@@ -21,8 +21,7 @@ export class ApiResponse {
   }
 
   static catch(error: any, statusCode: number = 422) {
-    let message: string | string[] =
-      error?.message || error?.statusText || 'Unknown an error occurred.'
+    let message: string | string[] = error?.message || error?.statusText || 'Unknown an error occurred.'
 
     if (typeof error === 'string') {
       message = error
@@ -30,9 +29,7 @@ export class ApiResponse {
       console.error(error)
 
       if (error instanceof ZodError && !error.isEmpty) {
-        message = error.errors.map(
-          (err) => `This field "${err.path[0]}": ${err.message.toLowerCase()}`
-        )
+        message = error.errors.map((err) => `This field "${err.path[0]}": ${err.message.toLowerCase()}`)
       }
 
       if (error?.status) {

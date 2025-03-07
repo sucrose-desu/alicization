@@ -1,22 +1,20 @@
 import { jwtVerify, SignJWT } from 'jose'
 
 import { ENV, JWT } from '@/constants/env'
-import type { AccountOBAC } from '@/drizzle/types'
+import type { AccountRBAC } from '@/drizzle/types'
+
+const key = new TextEncoder().encode(JWT.JWT_SECRET)
 
 /**
  * Signs a JWT token
- * @param account AccountOBAC
+ * @param account AccountRBAC
  */
-export async function signToken(account: AccountOBAC) {
-  const key = new TextEncoder().encode(JWT.JWT_SECRET)
-  const payload: JwtPayload = {
+export async function signToken(account: AccountRBAC) {
+  return new SignJWT({
+    sub: account.uid,
     id: account.id,
-    uid: account.uid,
-    role: account.role.id,
-    team: account.team.id
-  }
-
-  return new SignJWT(payload)
+    role: account.role.tier
+  })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuer(ENV.APP_NAME)
     .setIssuedAt(new Date())
@@ -29,7 +27,6 @@ export async function signToken(account: AccountOBAC) {
  * @param token AccessToken
  */
 export async function verifyToken(token: string) {
-  const key = new TextEncoder().encode(JWT.JWT_SECRET)
   try {
     const { payload } = await jwtVerify(token, key, {
       algorithms: ['HS256']

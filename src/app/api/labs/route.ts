@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import qs from 'qs'
 import { z } from 'zod'
 
@@ -17,10 +17,10 @@ export async function GET(request: NextRequest) {
   })
 
   try {
-    const qs = await paramValidator.parseAsync(searchParams)
+    const qs = paramValidator.parse(searchParams)
     const hex = strToHex(qs.path)
 
-    return ApiResponse.json({
+    return NextResponse.json({
       originPath: qs.path,
       hexPath: hex,
       timestamp: Date.now()

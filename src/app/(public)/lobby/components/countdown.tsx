@@ -2,7 +2,7 @@
 
 import { useCountdownTimer } from '@/hooks'
 
-export function CountdownComponent() {
+export default function CountdownComponent() {
   // __STATE's
   const { duration, pause, resume } = useCountdownTimer(
     (new Date('2026-01-01T00:00:00.000+07:00').getTime() - Date.now()) / 1e3

@@ -2,16 +2,13 @@ import { relations } from 'drizzle-orm'
 import { boolean, serial, text } from 'drizzle-orm/pg-core'
 
 import { sharedTimestampConumns, useSchema } from '../utils'
-import { genresOfTitles } from './titles.schema'
 
-export const genres = useSchema
+export const commons = useSchema
   .table(
-    'genres',
+    'commons',
     {
       id: serial('id').primaryKey(),
-      group: text('group').$type<GenreGroup>().default('general'),
-      text: text('text').unique(),
-      isActive: boolean('is_active').default(true),
+      isActive: boolean('is_active').notNull().default(true),
       ...sharedTimestampConumns
     },
     (self) => []
@@ -20,6 +17,4 @@ export const genres = useSchema
 
 // ********************** Relations ********************** \\
 
-export const genresRelations = relations(genres, ({ one, many }) => ({
-  titles: many(genresOfTitles)
-}))
+export const commonsRelations = relations(commons, ({ one, many }) => ({}))
