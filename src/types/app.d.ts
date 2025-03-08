@@ -1,5 +1,3 @@
-declare type SharedOmit = 'id' | 'createdAt' | 'updatedAt'
-
 declare type CanAccess = Record<'canRead' | 'canCreate' | 'canEdit' | 'canDelete', boolean>
 
 declare type JwtPayload = {

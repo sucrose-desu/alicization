@@ -13,8 +13,9 @@ export const schema = Object.freeze({
   ...spaces
 })
 
+export const queryClient = postgres(DATABASE_URL, { prepare: false })
 export const db = drizzle({
-  client: postgres(DATABASE_URL, { prepare: false }),
+  client: queryClient,
   schema,
   logger: false,
   casing: 'camelCase'

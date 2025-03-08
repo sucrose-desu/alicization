@@ -4,18 +4,11 @@ declare namespace Role {
 
 declare namespace Permission {
   export type Actions = 'create' | 'read' | 'update' | 'delete'
-  export type Resources =
-    | 'configuration'
-    | 'team'
-    | 'account'
-    | 'role'
-    | 'permission'
-    | 'report'
-    | 'logging'
+  export type Resources = 'configuration' | 'team' | 'account' | 'role' | 'permission' | 'report' | 'logging'
 }
 
 declare namespace Genre {
-  export type Group = 'general' | 'classified'
+  export type Group = 'public' | 'classified'
 }
 
 declare namespace Title {

@@ -1,12 +1,83 @@
 {
-  "id": "44bb5c2c-f4fe-4be6-aaa6-3989895547e6",
+  "id": "34c2b985-abf4-4806-84b1-373b85423a88",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "alicization.accounts": {
+    "public.accounts_with_roles": {
+      "name": "accounts_with_roles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "accountId": {
+          "name": "accountId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "roleId": {
+          "name": "roleId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp (6) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp (6) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "accounts_with_roles_accountId_accounts_id_fk": {
+          "name": "accounts_with_roles_accountId_accounts_id_fk",
+          "tableFrom": "accounts_with_roles",
+          "tableTo": "accounts",
+          "columnsFrom": [
+            "accountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "accounts_with_roles_roleId_roles_id_fk": {
+          "name": "accounts_with_roles_roleId_roles_id_fk",
+          "tableFrom": "accounts_with_roles",
+          "tableTo": "roles",
+          "columnsFrom": [
+            "roleId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
+    "public.accounts": {
       "name": "accounts",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -36,21 +107,21 @@
           "name": "is_active",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": true
         },
         "is_verified": {
           "name": "is_verified",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "is_suspended": {
           "name": "is_suspended",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "suspended_at": {
@@ -63,7 +134,7 @@
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -127,9 +198,9 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.profiles": {
+    "public.profiles": {
       "name": "profiles",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -147,26 +218,26 @@
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "phone_no": {
           "name": "phone_no",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "display_name": {
           "name": "display_name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'display name'"
         },
         "avatar": {
           "name": "avatar",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'default-avatar.webp'"
         },
         "bio": {
@@ -179,7 +250,7 @@
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -195,7 +266,6 @@
           "name": "profiles_account_id_accounts_id_fk",
           "tableFrom": "profiles",
           "tableTo": "accounts",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "account_id"
           ],
@@ -212,9 +282,9 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.genres": {
-      "name": "genres",
-      "schema": "alicization",
+    "public.commons": {
+      "name": "commons",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -222,31 +292,18 @@
           "primaryKey": true,
           "notNull": true
         },
-        "group": {
-          "name": "group",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'general'"
-        },
-        "text": {
-          "name": "text",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "is_active": {
           "name": "is_active",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -259,22 +316,14 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "genres_text_unique": {
-          "name": "genres_text_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "text"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.permissions": {
+    "public.permissions": {
       "name": "permissions",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -323,7 +372,7 @@
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -370,7 +419,6 @@
           "name": "permissions_role_id_roles_id_fk",
           "tableFrom": "permissions",
           "tableTo": "roles",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "role_id"
           ],
@@ -387,20 +435,14 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.roles": {
+    "public.roles": {
       "name": "roles",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "serial",
           "primaryKey": true,
-          "notNull": true
-        },
-        "team_id": {
-          "name": "team_id",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true
         },
         "tier": {
@@ -427,14 +469,14 @@
           "name": "is_active",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -476,22 +518,7 @@
           "with": {}
         }
       },
-      "foreignKeys": {
-        "roles_team_id_teams_id_fk": {
-          "name": "roles_team_id_teams_id_fk",
-          "tableFrom": "roles",
-          "tableTo": "teams",
-          "schemaTo": "alicization",
-          "columnsFrom": [
-            "team_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "roles_name_unique": {
@@ -506,9 +533,9 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.state_of_teams": {
-      "name": "state_of_teams",
-      "schema": "alicization",
+    "public.genres": {
+      "name": "genres",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -516,29 +543,31 @@
           "primaryKey": true,
           "notNull": true
         },
-        "team_id": {
-          "name": "team_id",
-          "type": "integer",
+        "group": {
+          "name": "group",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'general'"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "account_id": {
-          "name": "account_id",
-          "type": "integer",
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
           "primaryKey": false,
-          "notNull": true
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -549,132 +578,24 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "state_of_teams_team_id_teams_id_fk": {
-          "name": "state_of_teams_team_id_teams_id_fk",
-          "tableFrom": "state_of_teams",
-          "tableTo": "teams",
-          "schemaTo": "alicization",
-          "columnsFrom": [
-            "team_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "state_of_teams_account_id_accounts_id_fk": {
-          "name": "state_of_teams_account_id_accounts_id_fk",
-          "tableFrom": "state_of_teams",
-          "tableTo": "accounts",
-          "schemaTo": "alicization",
-          "columnsFrom": [
-            "account_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "state_of_teams_role_id_roles_id_fk": {
-          "name": "state_of_teams_role_id_roles_id_fk",
-          "tableFrom": "state_of_teams",
-          "tableTo": "roles",
-          "schemaTo": "alicization",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": true
-    },
-    "alicization.teams": {
-      "name": "teams",
-      "schema": "alicization",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "email": {
-          "name": "email",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "bio": {
-          "name": "bio",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "is_active": {
-          "name": "is_active",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp (6) with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp (6) with time zone",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {
-        "teams_name_index": {
-          "name": "teams_name_index",
-          "columns": [
-            {
-              "expression": "name",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "genres_text_unique": {
+          "name": "genres_text_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "text"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.genres_of_titles": {
-      "name": "genres_of_titles",
-      "schema": "alicization",
+    "public.genres_with_titles": {
+      "name": "genres_with_titles",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -698,7 +619,7 @@
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -710,11 +631,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "genres_of_titles_title_id_titles_id_fk": {
-          "name": "genres_of_titles_title_id_titles_id_fk",
-          "tableFrom": "genres_of_titles",
+        "genres_with_titles_title_id_titles_id_fk": {
+          "name": "genres_with_titles_title_id_titles_id_fk",
+          "tableFrom": "genres_with_titles",
           "tableTo": "titles",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "title_id"
           ],
@@ -724,11 +644,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "genres_of_titles_genre_id_genres_id_fk": {
-          "name": "genres_of_titles_genre_id_genres_id_fk",
-          "tableFrom": "genres_of_titles",
+        "genres_with_titles_genre_id_genres_id_fk": {
+          "name": "genres_with_titles_genre_id_genres_id_fk",
+          "tableFrom": "genres_with_titles",
           "tableTo": "genres",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "genre_id"
           ],
@@ -745,9 +664,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "alicization.titles": {
+    "public.titles": {
       "name": "titles",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -857,7 +776,7 @@
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -936,9 +855,9 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.tracks": {
+    "public.tracks": {
       "name": "tracks",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -1020,14 +939,14 @@
           "name": "is_active",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": true
         },
         "created_at": {
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -1074,7 +993,6 @@
           "name": "tracks_title_id_titles_id_fk",
           "tableFrom": "tracks",
           "tableTo": "titles",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "title_id"
           ],
@@ -1091,9 +1009,9 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
-    "alicization.watch_history": {
+    "public.watch_history": {
       "name": "watch_history",
-      "schema": "alicization",
+      "schema": "",
       "columns": {
         "id": {
           "name": "id",
@@ -1118,13 +1036,14 @@
           "name": "progress",
           "type": "real",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": 0
         },
         "is_completed": {
           "name": "is_completed",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "watched_at": {
@@ -1138,7 +1057,7 @@
           "name": "created_at",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "now()"
         },
         "updated_at": {
@@ -1154,7 +1073,6 @@
           "name": "watch_history_account_id_accounts_id_fk",
           "tableFrom": "watch_history",
           "tableTo": "accounts",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "account_id"
           ],
@@ -1168,7 +1086,6 @@
           "name": "watch_history_track_id_tracks_id_fk",
           "tableFrom": "watch_history",
           "tableTo": "tracks",
-          "schemaTo": "alicization",
           "columnsFrom": [
             "track_id"
           ],

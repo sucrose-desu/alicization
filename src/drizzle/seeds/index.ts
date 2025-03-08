@@ -1,15 +1,21 @@
-import { db, schema } from '../index'
-import { consoleLog } from '../utils'
+import { setTimeout } from 'timers/promises'
 
-async function main() {
+import { consoleLog } from '../utils'
+import { createAccounts } from './accounts'
+import { createGenres } from './genres'
+
+async function seeding() {
   consoleLog('Database seeding initialized.')
 
   // Seeding `Accounts` with role and permissions.
-  consoleLog('Accounts data seeding...')
-  // await db.insert(schema.accounts).values({})
-  consoleLog('Accounts data seeding success, ✅')
+  await createAccounts()
+  await setTimeout(1e3)
+
+  // Seeding `Genres`
+  await createGenres()
 
   consoleLog('Database seeding has been successfully, 🎉')
+  process.exit(0)
 }
 
-main()
+seeding()
