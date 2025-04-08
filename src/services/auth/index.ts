@@ -1,6 +1,7 @@
 'use server'
 
 // import 'server-only'
+import { schema, type AccountRBAC, type RoleAndPermission } from '@alicization-hub/db-schema'
 import { compareSync } from 'bcryptjs'
 import { addDays, addYears } from 'date-fns'
 import { eq, getTableColumns } from 'drizzle-orm'
@@ -11,8 +12,7 @@ import { NIL, v5 as uuidV5 } from 'uuid'
 
 import { APP_AUTH_ACCESS, APP_AUTH_REFRESH } from '@/constants'
 import { ENV } from '@/constants/env'
-import { db, schema } from '@/drizzle'
-import type { AccountRBAC, RoleAndPermission } from '@/drizzle/types'
+import { db } from '@/drizzle'
 import { signToken } from '@/libs/jwt'
 
 import type { SignInSchema } from './validator.zod'

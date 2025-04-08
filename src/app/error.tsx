@@ -16,7 +16,7 @@ export default function ErrorContainer({
     <div className='container min-h-svh'>
       <div className='grid justify-center gap-1 pt-64 text-center'>
         <h1 className='mb-4 text-9xl font-extrabold'>Oops!</h1>
-        <h3 className='text-3xl font-bold capitalize text-white/75'>unexpected error</h3>
+        <h3 className='text-3xl font-bold text-white/75 capitalize'>unexpected error</h3>
         <p className='text-white/75'>An error occurred and you request couldn't be completed.</p>
 
         <div className='mt-8 flex justify-center gap-4'>

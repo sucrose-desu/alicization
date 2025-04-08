@@ -21,6 +21,7 @@
 /build
 
 # misc
+/certificates
 .DS_Store
 *.pem
 

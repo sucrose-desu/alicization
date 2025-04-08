@@ -1,7 +1,8 @@
 import { setTimeout } from 'timers/promises'
 
-import { db, schema } from '..'
-import type { GenreValues } from '../types'
+import { schema, type GenreValues } from '@alicization-hub/db-schema'
+
+import { db } from '../index'
 import { consoleLog } from '../utils'
 
 const dataset = [

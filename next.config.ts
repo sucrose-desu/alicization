@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
     keepAlive: false
   },
 
+  logging: {
+    fetches: {
+      fullUrl: true
+    }
+  },
+
   // poweredByHeader: false,
   productionBrowserSourceMaps: true,
   // reactStrictMode: true,

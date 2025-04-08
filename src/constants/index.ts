@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 import { Locales } from './enum'
 import { ENV } from './env'
 
@@ -35,3 +37,6 @@ export const defCanAccess: CanAccess = {
   canEdit: false,
   canDelete: false
 }
+
+export const defQueryTiers = z.enum(['all', 'admin', 'assistant', 'operater', 'user', 'guest'])
+export const defQueryStatus = z.enum(['all', 'active', 'inactive'])

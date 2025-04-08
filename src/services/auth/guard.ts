@@ -1,20 +1,17 @@
 'use server'
 
-// import 'server-only'
+import 'server-only'
+
+import type { AccountRBAC } from '@alicization-hub/db-schema'
 import { cookies, headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { APP_AUTH_ACCESS } from '@/constants'
-import type { AccountRBAC } from '@/drizzle/types'
 import { verifyToken } from '@/libs/jwt'
 import { findAccountRBAC, findRoleAndPermissions } from '@/services/auth'
 
 import { permissionValidator } from '../permission'
 
-/**
- *
- * @returns JwtPayload
- */
 export async function useAuthValidator() {
   const headerStore = await headers()
   const bearerToken = headerStore.get('Authorization')
@@ -29,10 +26,6 @@ export async function useAuthValidator() {
   throw new Error('Unauthorized')
 }
 
-/**
- *
- * @returns AccountRBAC
- */
 export async function useProtector(route: 'public' | 'labs' = 'public'): Promise<AccountRBAC> {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get(APP_AUTH_ACCESS)

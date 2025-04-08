@@ -1,3 +1,5 @@
+/// <reference types="@alicization-hub/db-schema/global-types" />
+
 declare type CanAccess = Record<'canRead' | 'canCreate' | 'canEdit' | 'canDelete', boolean>
 
 declare type JwtPayload = {
@@ -8,19 +10,19 @@ declare type JwtPayload = {
 
 declare type Pagination<T = any> = {
   data: T[]
-  total: number
+  count: number
   currentPage: number
   nextPage: number | null
   prevPage: number | null
   lastPage: number
 }
 
-declare type IterableState = 'all' | Iterable<string | number>
-
 declare type CountdownDuration = Record<
   'years' | 'months' | 'weeks' | 'days' | 'hours' | 'minutes' | 'seconds',
   number
 >
+
+declare type IterableState = 'all' | Iterable<string | number>
 
 declare type UseDisclosureReturn = {
   isOpen: boolean

@@ -1,12 +1,13 @@
 import { setTimeout } from 'timers/promises'
 
+import type { AccountValues, PermissionValues, ProfileValues, RoleValues } from '@alicization-hub/db-schema'
+import { schema } from '@alicization-hub/db-schema'
 import { faker } from '@faker-js/faker'
 import { hashSync } from 'bcryptjs'
 
 import { permissions } from '@/constants/permissions'
 
-import { db, schema } from '../index'
-import type { AccountValues, PermissionValues, ProfileValues, RoleValues } from '../types'
+import { db } from '../index'
 import { consoleLog } from '../utils'
 
 const phoneNo = () => `09${faker.number.int({ min: 0, max: 99999999 })}`.padStart(8, '0')

@@ -12,7 +12,7 @@ const paramValidator = z.object({ path: z.string() })
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: NextRequest, { params }: NextParams<{ path: string }>) {
+export async function GET(req: NextRequest, { params }: NextParams<{ path: string }>) {
   try {
     const qs = paramValidator.parse(await params)
     const pathConverted = hexToString(qs.path)
